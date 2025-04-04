@@ -8,7 +8,7 @@ export const TaskFormContainer = () => {
     const handleCreate = async (title: string) => {
         const start = performance.now();
 
-        const res = await fetch("/api/task", {
+        const res = await fetch("/api/tasks", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
