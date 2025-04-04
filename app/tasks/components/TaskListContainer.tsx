@@ -1,5 +1,3 @@
-"use client";
-
 import { Typography } from "@mui/material";
 import useSWR from "swr";
 import { TaskList } from "./TaskList";
