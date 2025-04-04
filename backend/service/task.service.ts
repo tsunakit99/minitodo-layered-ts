@@ -8,4 +8,8 @@ export class TaskService {
         if (!title || title.trim() === "") throw new Error("Title is required");
         return this.repo.create(title);
     }
+
+    async findAll(): Promise<Task[]> {
+        return this.repo.findAll();
+    }
 }
