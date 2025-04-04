@@ -1,8 +1,9 @@
 "use client";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Checkbox, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Typography } from "@mui/material";
+import { useState } from "react";
+import { EditTaskDialog } from "./EditTaskDialog";
 
 type Task = {
     id: number;
@@ -11,9 +12,14 @@ type Task = {
     createdAt: string;
 };
 
-export const TaskList = ({ tasks }: { tasks: Task[] }) => { 
-    const handleEdit = (task: Task) => { 
-        alert(`編集機能: ${task.title}`);
+export const TaskList = ({ tasks }: { tasks: Task[] }) => {
+    
+    const [editingTask, setEditingTask] = useState<Task | null>(null);
+
+    const handleEdit = (task: Task) => setEditingTask(task);
+    const handleEditSave = (newTitle: string) => { 
+        alert(`保存: ${editingTask?.id} → ${newTitle}`);
+        // TODO: PATCH API呼び出し
     }
 
     const handleDelete = (id: string) => { 
@@ -36,7 +42,7 @@ export const TaskList = ({ tasks }: { tasks: Task[] }) => {
                 {tasks.map((task) => (
                     <ListItem
                         key={task.id}
-                        secondaryAction={ 
+                        secondaryAction={
                             <Stack direction="row" spacing={1}>
                                 <IconButton edge="end" onClick={() => handleEdit(task)}>
                                     <EditIcon />
@@ -59,6 +65,13 @@ export const TaskList = ({ tasks }: { tasks: Task[] }) => {
                     </ListItem>
                 ))}
             </List>
+            <EditTaskDialog
+                open={!!editingTask}
+                onClose={() => setEditingTask(null)}
+                initialValue={editingTask?.title || ""}
+                onSave={handleEditSave}
+            />
         </Paper>
-    )
+        
+    );
 }
