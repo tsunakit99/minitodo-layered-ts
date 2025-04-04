@@ -18,13 +18,14 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
       "@controller/*": ["backend/controller/*"],
-  "@service/*": ["backend/service/*"],
-  "@repo/*": ["backend/repository/*"],
-  "@infra/*": ["backend/infra/*"],
-  "@model/*": ["backend/model/*"]
+      "@service/*": ["backend/service/*"],
+      "@repo/*": ["backend/repository/*"],
+      "@infra/*": ["backend/infra/*"],
+      "@model/*": ["backend/model/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
