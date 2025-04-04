@@ -11,7 +11,7 @@ export class PrismaTaskRepository implements TaskRepository {
     }
 
     async findAll(): Promise<Task[]> {
-        const tasks = await prisma.task.findMany({ orderby: { createdAt: "desc" } });
+        const tasks = await prisma.task.findMany({ orderBy: { createdAt: "desc" } });
         return tasks;
     }
 }
