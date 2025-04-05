@@ -64,7 +64,7 @@ export const TaskList = ({ tasks, mutate }: TaskListProps) => {
                         key={task.id}
                         secondaryAction={
                             <Stack direction="row" spacing={1}>
-                                <IconButton edge="end" onClick={() => handleEditSave(task.title)}>
+                                <IconButton edge="end" onClick={() => setEditingTask(task)}>
                                     <EditIcon />
                                 </IconButton>
                                 <IconButton edge="end" onClick={() => handleDelete(task.id.toString())}>
