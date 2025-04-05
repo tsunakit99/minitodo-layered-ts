@@ -14,4 +14,18 @@ export class PrismaTaskRepository implements TaskRepository {
         const tasks = await prisma.task.findMany({ orderBy: { createdAt: "desc" } });
         return tasks;
     }
+
+    async findById(id: string): Promise<Task | null> {
+        const task = await prisma.task.findUnique({ where: { id } });
+        return task;
+    }
+
+    async update(id: string, data: Partial<Task>): Promise<Task> {
+        const updatedTask = await prisma.task.update({ where: { id }, data: { title: data.title, completed: data.completed } });
+        return updatedTask;
+    }
+
+    async delete(id: string): Promise<void> {
+        await prisma.task.delete({ where: { id } });
+    }
 }
