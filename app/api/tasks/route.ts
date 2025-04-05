@@ -1,2 +1,2 @@
-export { GET, POST } from "@controller/task.controller";
+export { DELETE, GET, PATCH, POST } from "@controller/task.controller";
 
