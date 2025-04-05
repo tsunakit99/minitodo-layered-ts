@@ -1,3 +1,4 @@
+"use client";
 import { Box, Container, Paper, Typography } from "@mui/material";
 import { TaskFormContainer } from "./components/TaskFormContainer";
 import { TaskListContainer } from "./components/TaskListContainer";
