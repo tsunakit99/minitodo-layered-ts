@@ -6,10 +6,10 @@ import { TaskList } from "./TaskList";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export const TaskListContainer = () => { 
-    const { data: tasks, error, isLoading } = useSWR("/api/tasks", fetcher);
+    const { data: tasks, error, isLoading, mutate } = useSWR("/api/tasks", fetcher);
     
     if (isLoading) return <Typography variant="body2">Loading...</Typography>;
     if (error) return <Typography variant="body2" color="error">Error loading tasks</Typography>;
 
-    return <TaskList tasks={tasks} />;
+    return <TaskList tasks={tasks} mutate={mutate} />;
 }

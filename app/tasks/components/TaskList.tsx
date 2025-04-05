@@ -12,24 +12,44 @@ type Task = {
     createdAt: string;
 };
 
-export const TaskList = ({ tasks }: { tasks: Task[] }) => {
+type TaskListProps = {
+  tasks: Task[];
+  mutate: () => void;
+};
+
+export const TaskList = ({ tasks, mutate }: TaskListProps) => {
     
     const [editingTask, setEditingTask] = useState<Task | null>(null);
 
-    const handleEdit = (task: Task) => setEditingTask(task);
-    const handleEditSave = (newTitle: string) => { 
-        alert(`保存: ${editingTask?.id} → ${newTitle}`);
-        // TODO: PATCH API呼び出し
+    const handleEditSave = async (newTitle: string) => {
+        if (!editingTask) return;
+
+        await fetch(`/api/tasks/${editingTask.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: newTitle }),
+        });
+
+        setEditingTask(null);
+        mutate(); // 再取得
+    };
+
+    const handleDelete = async (id: string) => { 
+        if (!confirm(`本当に削除しますか？`)) return;
+
+        await fetch(`/api/tasks/${id}`, {
+            method: "DELETE",
+        })
+        mutate(); // 再取得
     }
 
-    const handleDelete = (id: string) => { 
-        if (confirm(`本当に削除しますか？`)) {
-            alert(`削除機能: ${id}`);
-        }
-    }
-
-    const handleToggleComplete = (task: Task) => { 
-        alert(`完了切り替え: ${task.title} → ${!task.completed}`);
+    const handleToggleComplete = async (task: Task) => { 
+        await fetch(`/api/tasks/${task.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ completed: !task.completed }),
+        })
+        mutate(); // 再取得
     }
 
     if (tasks.length === 0) { 
@@ -44,7 +64,7 @@ export const TaskList = ({ tasks }: { tasks: Task[] }) => {
                         key={task.id}
                         secondaryAction={
                             <Stack direction="row" spacing={1}>
-                                <IconButton edge="end" onClick={() => handleEdit(task)}>
+                                <IconButton edge="end" onClick={() => handleEditSave(task.title)}>
                                     <EditIcon />
                                 </IconButton>
                                 <IconButton edge="end" onClick={() => handleDelete(task.id.toString())}>
